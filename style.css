@@ -155,7 +155,7 @@ body.past-hero .ca-pill {
 /* --- II — THE ADVICE --- */
 .advice {
     padding: 120px 24px;
-    max-width: 648px;
+    max-width: 580px;
     margin: 0 auto;
     text-align: left;
 }
@@ -189,18 +189,24 @@ body.past-hero .ca-pill {
 /* --- III — THE EMBED --- */
 .embed {
     padding: 80px 24px;
-    max-width: 568px;
+    max-width: 580px;
     margin: 0 auto;
 }
 
 .embed__wrap {
-    max-width: 520px;
+    width: 100%;
     margin: 0 auto;
     border-radius: 12px;
     border: 1px solid var(--smoke-line);
     overflow: hidden;
     transition: border-color 0.3s ease;
     min-height: 80px;
+}
+
+.embed__wrap .twitter-tweet,
+.embed__wrap iframe {
+    width: 100% !important;
+    max-width: 100% !important;
 }
 
 .embed__wrap:hover { border-color: var(--ember-hover); }
@@ -229,7 +235,7 @@ body.past-hero .ca-pill {
 /* --- IV — SURVIVE EVERYTHING --- */
 .every {
     padding: 80px 24px;
-    max-width: 648px;
+    max-width: 580px;
     margin: 0 auto;
 }
 
@@ -305,7 +311,7 @@ body.past-hero .ca-pill {
 }
 
 .stayed__inner {
-    max-width: 600px;
+    max-width: 580px;
     margin: 0 auto;
 }
 
@@ -369,7 +375,7 @@ body.past-hero .ca-pill {
 /* --- VII — HOW TO SURVIVE --- */
 .how {
     padding: 60px 24px;
-    max-width: 648px;
+    max-width: 580px;
     margin: 0 auto;
 }
 

@@ -44,7 +44,7 @@
         const wrap = $('#embed-wrap');
         if (!wrap) return;
         wrap.innerHTML =
-            '<blockquote class="twitter-tweet" data-theme="dark" data-dnt="true">' +
+            '<blockquote class="twitter-tweet" data-theme="dark" data-dnt="true" data-width="550" data-conversation="none" data-cards="hidden">' +
             '<a href="' + tweetUrl + '"></a>' +
             '</blockquote>';
 
