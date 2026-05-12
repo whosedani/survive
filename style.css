@@ -169,30 +169,16 @@ body.past-hero .ca-pill {
     margin-bottom: 40px;
 }
 
-.advice__quote {
-    font-family: 'Libre Caslon Text', serif;
-    font-style: italic;
-    font-size: 28px;
-    line-height: 1.6;
-    color: var(--ash);
-    margin-bottom: 60px;
-}
-
 .advice__sub {
     font-family: 'Schibsted Grotesk', sans-serif;
     font-style: normal;
     font-size: 16px;
     line-height: 1.7;
     color: var(--smoke);
+    margin-top: 60px;
 }
 
-/* --- III — THE EMBED --- */
-.embed {
-    padding: 80px 24px;
-    max-width: 580px;
-    margin: 0 auto;
-}
-
+/* --- TWEET EMBED (lives inside .advice) --- */
 .embed__wrap {
     width: 100%;
     margin: 0 auto;
@@ -221,15 +207,6 @@ body.past-hero .ca-pill {
     display: block;
     width: 100%;
     height: auto;
-}
-
-.embed__caption {
-    font-family: 'Libre Caslon Text', serif;
-    font-style: italic;
-    font-size: 14px;
-    color: var(--smoke);
-    text-align: center;
-    margin-top: 24px;
 }
 
 /* --- IV — SURVIVE EVERYTHING --- */
