@@ -198,6 +198,29 @@ body {
     height: auto;
 }
 
+.tweet-loading {
+    font-family: 'Libre Caslon Text', serif;
+    font-style: italic;
+    font-size: 14px;
+    color: var(--smoke);
+    text-align: center;
+    padding: 32px 24px;
+}
+
+.tweet-link-fallback {
+    display: block;
+    font-family: 'Schibsted Grotesk', sans-serif;
+    font-style: normal;
+    font-size: 14px;
+    color: var(--ash);
+    text-decoration: none;
+    text-align: center;
+    padding: 32px 24px;
+    transition: color 0.25s ease;
+}
+
+.tweet-link-fallback:hover { color: var(--ember); }
+
 /* --- IV — SURVIVE EVERYTHING --- */
 .every {
     padding: 80px 24px;

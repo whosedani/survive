@@ -44,35 +44,60 @@
         mountTweet(c.tweet);
     }
 
+    function extractTweetId(url) {
+        const m = url && String(url).match(/status\/(\d+)/);
+        return m ? m[1] : null;
+    }
+
+    function showTweetFallback(wrap, tweetUrl) {
+        const safe = (tweetUrl || '#').replace(/"/g, '&quot;');
+        wrap.innerHTML =
+            '<a class="tweet-link-fallback" href="' + safe + '" target="_blank" rel="noopener">' +
+            'view tweet on X →</a>';
+    }
+
     function mountTweet(tweetUrl) {
         const wrap = $('#embed-wrap');
         if (!wrap) return;
-        wrap.innerHTML =
-            '<blockquote class="twitter-tweet" data-theme="dark" data-dnt="true" data-width="550">' +
-            '<a href="' + tweetUrl + '">Loading tweet…</a>' +
-            '</blockquote>';
 
-        const tryLoad = () => {
-            if (window.twttr && window.twttr.widgets && typeof window.twttr.widgets.load === 'function') {
-                window.twttr.widgets.load(wrap);
-                return true;
-            }
-            return false;
-        };
-
-        if (!tryLoad()) {
-            const iv = setInterval(() => {
-                if (tryLoad()) clearInterval(iv);
-            }, 250);
-            setTimeout(() => clearInterval(iv), 6000);
+        const tweetId = extractTweetId(tweetUrl);
+        if (!tweetId) {
+            showTweetFallback(wrap, tweetUrl);
+            return;
         }
 
-        // fallback: if no iframe mounted after 4.5s, show static image
-        setTimeout(() => {
-            if (!wrap.querySelector('iframe')) {
-                wrap.innerHTML = '<img class="tweet-fallback" src="static/tweet.png" alt="">';
+        wrap.innerHTML = '<div class="tweet-loading">loading…</div>';
+
+        let rendered = false;
+        const renderTweet = () => {
+            if (rendered) return true;
+            if (!window.twttr || !window.twttr.widgets || typeof window.twttr.widgets.createTweet !== 'function') {
+                return false;
             }
-        }, 4500);
+            rendered = true;
+            wrap.innerHTML = '';
+            window.twttr.widgets.createTweet(tweetId, wrap, {
+                theme: 'dark',
+                dnt: true,
+                width: 550,
+                align: 'center'
+            }).then(function (el) {
+                if (!el) showTweetFallback(wrap, tweetUrl);
+            }).catch(function () {
+                showTweetFallback(wrap, tweetUrl);
+            });
+            return true;
+        };
+
+        if (!renderTweet()) {
+            const iv = setInterval(() => {
+                if (renderTweet()) clearInterval(iv);
+            }, 200);
+            setTimeout(() => {
+                clearInterval(iv);
+                if (!rendered) showTweetFallback(wrap, tweetUrl);
+            }, 8000);
+        }
     }
 
     async function fetchConfig() {
