@@ -37,8 +37,38 @@ body {
 .nav {
     position: fixed;
     top: 28px;
+    left: 32px;
     right: 32px;
     z-index: 50;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    pointer-events: none;
+}
+
+.nav > * { pointer-events: auto; }
+
+.nav__ca {
+    font-family: 'Schibsted Grotesk', sans-serif;
+    font-style: normal;
+    font-size: 12px;
+    font-weight: 400;
+    letter-spacing: 0.3px;
+    color: var(--ash);
+    cursor: pointer;
+    user-select: none;
+    transition: color 0.25s ease;
+    max-width: 60vw;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.nav__ca:hover { color: var(--ember); }
+.nav__ca[hidden] { display: none; }
+
+.nav__right {
     display: flex;
     align-items: center;
     gap: 20px;
@@ -66,47 +96,6 @@ body {
 }
 
 .nav__buy:hover { color: var(--ember); }
-
-/* --- SCROLL CA PILL --- */
-.ca-pill {
-    position: fixed;
-    top: 64px;
-    right: 32px;
-    z-index: 49;
-    font-family: 'Schibsted Grotesk', sans-serif;
-    font-style: normal;
-    font-size: 11px;
-    letter-spacing: 0.5px;
-    color: var(--smoke);
-    cursor: pointer;
-    user-select: none;
-    opacity: 0;
-    transform: translateY(-4px);
-    pointer-events: none;
-    transition: opacity 0.4s ease, transform 0.4s ease, color 0.25s ease;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.ca-pill__label {
-    color: var(--smoke);
-    font-weight: 500;
-}
-
-.ca-pill__value {
-    color: var(--ash);
-    font-weight: 400;
-}
-
-body.past-hero .ca-pill {
-    opacity: 1;
-    transform: translateY(0);
-    pointer-events: auto;
-}
-
-.ca-pill:hover { color: var(--ember); }
-.ca-pill:hover .ca-pill__value { color: var(--ember); }
 
 /* --- I — HERO --- */
 .hero {
@@ -434,16 +423,8 @@ body.past-hero .ca-pill {
     line-height: 1;
     letter-spacing: -2px;
     color: var(--ember);
-    margin: 0 0 16px 0;
+    margin: 0;
     animation: pulse 5s ease-in-out infinite;
-}
-
-.foot__sub {
-    font-family: 'Schibsted Grotesk', sans-serif;
-    font-style: normal;
-    font-size: 12px;
-    letter-spacing: 1px;
-    color: var(--smoke);
 }
 
 @keyframes pulse {
@@ -505,14 +486,15 @@ body.past-hero .ca-pill {
 @media (max-width: 768px) {
     .nav {
         top: 20px;
+        left: 20px;
         right: 20px;
-        gap: 16px;
+        gap: 12px;
     }
-    .ca-pill {
-        top: 52px;
-        right: 20px;
+    .nav__ca {
         font-size: 10px;
+        max-width: 55vw;
     }
+    .nav__right { gap: 16px; }
     .hero__word {
         bottom: 32px;
         left: 24px;

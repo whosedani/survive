@@ -11,11 +11,6 @@
 
     const $ = (sel) => document.querySelector(sel);
 
-    function truncateCA(ca) {
-        if (!ca || ca.length < 12) return ca || '';
-        return ca.slice(0, 4) + '…' + ca.slice(-4);
-    }
-
     function applyConfig(cfg) {
         const c = Object.assign({}, DEFAULTS, cfg || {});
 
@@ -27,10 +22,19 @@
         if (navCom) navCom.href = c.community;
         if (navBuy) navBuy.href = c.buy;
 
-        // CA values
-        const pillVal = $('#ca-pill-value');
+        // CA — header (left) and cabar (full-width strip)
+        const navCa = $('#nav-ca');
         const cabarVal = $('#cabar-value');
-        if (pillVal) pillVal.textContent = truncateCA(c.ca);
+        const hasRealCA = c.ca && c.ca !== DEFAULTS.ca;
+        if (navCa) {
+            if (hasRealCA) {
+                navCa.textContent = c.ca;
+                navCa.hidden = false;
+            } else {
+                navCa.textContent = '';
+                navCa.hidden = true;
+            }
+        }
         if (cabarVal) cabarVal.textContent = c.ca;
 
         // store ca for copy handlers
@@ -99,21 +103,6 @@
         }
     }
 
-    // --- SCROLL CA PILL ---
-    function setupHeroObserver() {
-        const hero = $('#hero');
-        if (!hero || !('IntersectionObserver' in window)) {
-            document.body.classList.add('past-hero');
-            return;
-        }
-        const io = new IntersectionObserver((entries) => {
-            entries.forEach((e) => {
-                document.body.classList.toggle('past-hero', !e.isIntersecting);
-            });
-        }, { threshold: 0.1 });
-        io.observe(hero);
-    }
-
     // --- ROW STAGGER ---
     function setupRowStagger() {
         const rows = document.querySelectorAll('#every-list .row');
@@ -166,9 +155,8 @@
     }
 
     function setupCopy() {
-        const cabar = $('#cabar');
-        const pill = $('#ca-pill');
-        [cabar, pill].forEach((el) => {
+        const targets = [$('#cabar'), $('#nav-ca')];
+        targets.forEach((el) => {
             if (!el) return;
             el.addEventListener('click', copyCA);
             el.addEventListener('keydown', (e) => {
@@ -183,7 +171,6 @@
     // --- INIT ---
     function init() {
         spawnEmbers();
-        setupHeroObserver();
         setupRowStagger();
         setupCopy();
         fetchConfig();
