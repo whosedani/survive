@@ -1,7 +1,7 @@
 export default async function handler(req, res) {
-    const KV_URL = process.env.KV_REST_API_URL;
-    const KV_TOKEN = process.env.KV_REST_API_TOKEN;
-    const ADMIN_HASH = process.env.ADMIN_HASH;
+    const KV_URL = process.env.SURVIVE_KV_URL;
+    const KV_TOKEN = process.env.SURVIVE_KV_TOKEN;
+    const ADMIN_HASH = process.env.SURVIVE_ADMIN_HASH;
     const KEY = 'survive:config';
 
     res.setHeader('Access-Control-Allow-Origin', '*');
