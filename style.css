@@ -178,48 +178,9 @@ body {
     min-height: 80px;
 }
 
-.embed__wrap .twitter-tweet,
-.embed__wrap iframe {
-    width: 100% !important;
-    max-width: 100% !important;
-}
-
 .embed__wrap:hover { border-color: var(--ember-hover); }
 
-.embed__wrap .twitter-tweet { margin: 0 !important; }
-
-.embed__wrap iframe {
-    border-radius: 12px !important;
-}
-
-.tweet-fallback {
-    display: block;
-    width: 100%;
-    height: auto;
-}
-
-.tweet-loading {
-    font-family: 'Libre Caslon Text', serif;
-    font-style: italic;
-    font-size: 14px;
-    color: var(--smoke);
-    text-align: center;
-    padding: 32px 24px;
-}
-
-.tweet-link-fallback {
-    display: block;
-    font-family: 'Schibsted Grotesk', sans-serif;
-    font-style: normal;
-    font-size: 14px;
-    color: var(--ash);
-    text-decoration: none;
-    text-align: center;
-    padding: 32px 24px;
-    transition: color 0.25s ease;
-}
-
-.tweet-link-fallback:hover { color: var(--ember); }
+.embed__wrap .twitter-tweet { margin: 0 auto !important; }
 
 /* --- IV — SURVIVE EVERYTHING --- */
 .every {
