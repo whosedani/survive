@@ -40,8 +40,11 @@
         // store ca for copy handlers
         window.__SURVIVE_CA__ = c.ca;
 
-        // tweet embed
-        mountTweet(c.tweet);
+        // tweet embed — only re-inject if config URL differs from default
+        // (default is already hardcoded in index.html so widgets.js auto-processes it on load)
+        if (c.tweet && c.tweet !== DEFAULTS.tweet) {
+            mountTweet(c.tweet);
+        }
     }
 
     function mountTweet(tweetUrl) {
