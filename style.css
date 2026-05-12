@@ -1,0 +1,580 @@
+:root {
+    --scorched: #0E0C0A;
+    --scorched-2: #131110;
+    --ember: #D4621A;
+    --ash: #D9D0C7;
+    --smoke: #6B6058;
+    --ember-line: rgba(212, 98, 26, 0.08);
+    --ember-tint: rgba(212, 98, 26, 0.04);
+    --ember-hover: rgba(212, 98, 26, 0.2);
+    --smoke-line: rgba(107, 96, 88, 0.15);
+}
+
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+    background: var(--scorched);
+    color: var(--ash);
+    font-family: 'Libre Caslon Text', Georgia, serif;
+    font-style: italic;
+    overflow-x: hidden;
+    min-height: 100vh;
+}
+
+.ember { color: var(--ember); }
+
+/* --- NAV --- */
+.nav {
+    position: fixed;
+    top: 28px;
+    right: 32px;
+    z-index: 50;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.nav__icon {
+    color: var(--smoke);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.25s ease;
+}
+
+.nav__icon:hover { color: var(--ash); }
+
+.nav__buy {
+    font-family: 'Schibsted Grotesk', sans-serif;
+    font-style: normal;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    color: var(--smoke);
+    text-decoration: none;
+    transition: color 0.25s ease;
+}
+
+.nav__buy:hover { color: var(--ember); }
+
+/* --- SCROLL CA PILL --- */
+.ca-pill {
+    position: fixed;
+    top: 64px;
+    right: 32px;
+    z-index: 49;
+    font-family: 'Schibsted Grotesk', sans-serif;
+    font-style: normal;
+    font-size: 11px;
+    letter-spacing: 0.5px;
+    color: var(--smoke);
+    cursor: pointer;
+    user-select: none;
+    opacity: 0;
+    transform: translateY(-4px);
+    pointer-events: none;
+    transition: opacity 0.4s ease, transform 0.4s ease, color 0.25s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.ca-pill__label {
+    color: var(--smoke);
+    font-weight: 500;
+}
+
+.ca-pill__value {
+    color: var(--ash);
+    font-weight: 400;
+}
+
+body.past-hero .ca-pill {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+.ca-pill:hover { color: var(--ember); }
+.ca-pill:hover .ca-pill__value { color: var(--ember); }
+
+/* --- I — HERO --- */
+.hero {
+    position: relative;
+    min-height: 100vh;
+    overflow: hidden;
+}
+
+.hero__img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+.hero__overlay-top {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, rgba(14, 12, 10, 0.3) 0%, rgba(14, 12, 10, 0) 35%);
+    pointer-events: none;
+}
+
+.hero__overlay-bottom {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(14, 12, 10, 0.95) 0%, rgba(14, 12, 10, 0.6) 8%, rgba(14, 12, 10, 0) 18%);
+    pointer-events: none;
+}
+
+.hero__word {
+    position: absolute;
+    bottom: 48px;
+    left: 48px;
+    font-family: 'Schibsted Grotesk', sans-serif;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 72px;
+    line-height: 1;
+    letter-spacing: -2px;
+    color: var(--ember);
+    margin: 0;
+}
+
+/* --- II — THE ADVICE --- */
+.advice {
+    padding: 120px 24px;
+    max-width: 648px;
+    margin: 0 auto;
+    text-align: left;
+}
+
+.advice__kicker {
+    font-family: 'Libre Caslon Text', serif;
+    font-style: italic;
+    font-size: 13px;
+    color: var(--smoke);
+    letter-spacing: 3px;
+    margin-bottom: 40px;
+}
+
+.advice__quote {
+    font-family: 'Libre Caslon Text', serif;
+    font-style: italic;
+    font-size: 28px;
+    line-height: 1.6;
+    color: var(--ash);
+    margin-bottom: 60px;
+}
+
+.advice__sub {
+    font-family: 'Schibsted Grotesk', sans-serif;
+    font-style: normal;
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--smoke);
+}
+
+/* --- III — THE EMBED --- */
+.embed {
+    padding: 80px 24px;
+    max-width: 568px;
+    margin: 0 auto;
+}
+
+.embed__wrap {
+    max-width: 520px;
+    margin: 0 auto;
+    border-radius: 12px;
+    border: 1px solid var(--smoke-line);
+    overflow: hidden;
+    transition: border-color 0.3s ease;
+    min-height: 80px;
+}
+
+.embed__wrap:hover { border-color: var(--ember-hover); }
+
+.embed__wrap .twitter-tweet { margin: 0 !important; }
+
+.embed__wrap iframe {
+    border-radius: 12px !important;
+}
+
+.tweet-fallback {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+.embed__caption {
+    font-family: 'Libre Caslon Text', serif;
+    font-style: italic;
+    font-size: 14px;
+    color: var(--smoke);
+    text-align: center;
+    margin-top: 24px;
+}
+
+/* --- IV — SURVIVE EVERYTHING --- */
+.every {
+    padding: 80px 24px;
+    max-width: 648px;
+    margin: 0 auto;
+}
+
+.every__title {
+    font-family: 'Schibsted Grotesk', sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 28px;
+    color: var(--ash);
+    margin-bottom: 40px;
+    letter-spacing: -0.5px;
+}
+
+.every__list {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.row {
+    display: flex;
+    align-items: baseline;
+    gap: 0;
+    opacity: 0;
+    transform: translateY(6px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.row.in {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.row__l {
+    font-family: 'Libre Caslon Text', serif;
+    font-style: italic;
+    font-size: 17px;
+    color: var(--smoke);
+    white-space: nowrap;
+}
+
+.row__dots {
+    flex: 1;
+    border-bottom: 1px dotted var(--smoke);
+    margin: 0 10px;
+    transform: translateY(-5px);
+    min-width: 24px;
+    opacity: 0.6;
+}
+
+.row__r {
+    font-family: 'Schibsted Grotesk', sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 17px;
+    color: var(--ember);
+    white-space: nowrap;
+}
+
+.every__outro {
+    margin-top: 48px;
+    font-family: 'Schibsted Grotesk', sans-serif;
+    font-style: normal;
+    font-size: 20px;
+    color: var(--ash);
+    letter-spacing: -0.3px;
+}
+
+/* --- V — THE ONES WHO STAYED --- */
+.stayed {
+    background: var(--scorched-2);
+    padding: 80px 24px;
+}
+
+.stayed__inner {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.stayed__inner p {
+    font-family: 'Libre Caslon Text', serif;
+    font-style: italic;
+    font-size: 18px;
+    line-height: 1.8;
+    color: var(--ash);
+    margin-bottom: 24px;
+}
+
+.stayed__inner p:last-child { margin-bottom: 0; }
+
+.stayed__final {
+    font-family: 'Schibsted Grotesk', sans-serif !important;
+    font-style: normal !important;
+    font-size: 24px !important;
+    line-height: 1.4 !important;
+    color: var(--ember) !important;
+    margin-top: 32px !important;
+    letter-spacing: -0.3px;
+}
+
+/* --- VI — CA BAR --- */
+.cabar {
+    width: 100%;
+    background: var(--ember-tint);
+    border-top: 1px solid var(--ember-line);
+    border-bottom: 1px solid var(--ember-line);
+    padding: 16px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.25s ease;
+}
+
+.cabar:hover { background: rgba(212, 98, 26, 0.07); }
+
+.cabar__value {
+    font-family: 'Schibsted Grotesk', sans-serif;
+    font-style: normal;
+    font-size: 14px;
+    color: var(--ash);
+    letter-spacing: 0.3px;
+    word-break: break-all;
+    text-align: center;
+}
+
+.cabar__copy {
+    color: var(--smoke);
+    flex-shrink: 0;
+    transition: color 0.25s ease;
+}
+
+.cabar:hover .cabar__copy { color: var(--ember); }
+
+/* --- VII — HOW TO SURVIVE --- */
+.how {
+    padding: 60px 24px;
+    max-width: 648px;
+    margin: 0 auto;
+}
+
+.how__kicker {
+    font-family: 'Schibsted Grotesk', sans-serif;
+    font-style: normal;
+    font-size: 12px;
+    color: var(--smoke);
+    letter-spacing: 4px;
+    margin-bottom: 32px;
+}
+
+.how__list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.how__list li {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+}
+
+.how__n {
+    font-family: 'Schibsted Grotesk', sans-serif;
+    font-style: normal;
+    font-size: 14px;
+    color: var(--smoke);
+    min-width: 14px;
+}
+
+.how__t {
+    font-family: 'Libre Caslon Text', serif;
+    font-style: italic;
+    font-size: 16px;
+    line-height: 1.5;
+    color: var(--ash);
+}
+
+/* --- VIII — FOOTER --- */
+.foot {
+    position: relative;
+    min-height: 100vh;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.foot__img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+.foot__overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(14, 12, 10, 0.82);
+    pointer-events: none;
+}
+
+.foot__center {
+    position: relative;
+    text-align: center;
+    z-index: 1;
+}
+
+.foot__word {
+    font-family: 'Schibsted Grotesk', sans-serif;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 64px;
+    line-height: 1;
+    letter-spacing: -2px;
+    color: var(--ember);
+    margin: 0 0 16px 0;
+    animation: pulse 5s ease-in-out infinite;
+}
+
+.foot__sub {
+    font-family: 'Schibsted Grotesk', sans-serif;
+    font-style: normal;
+    font-size: 12px;
+    letter-spacing: 1px;
+    color: var(--smoke);
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 1; }
+}
+
+/* --- EMBERS --- */
+.ember-dot {
+    position: fixed;
+    bottom: -20px;
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: var(--ember);
+    pointer-events: none;
+    z-index: 5;
+    opacity: 0.2;
+    animation: drift linear infinite, flicker ease-in-out infinite;
+}
+
+@keyframes drift {
+    from { transform: translateY(0); }
+    to { transform: translateY(-110vh); }
+}
+
+@keyframes flicker {
+    0%, 100% { opacity: 0.15; }
+    50% { opacity: 0.3; }
+}
+
+/* --- TOAST --- */
+.toast {
+    position: fixed;
+    bottom: 32px;
+    left: 50%;
+    transform: translateX(-50%) translateY(8px);
+    font-family: 'Schibsted Grotesk', sans-serif;
+    font-style: normal;
+    font-size: 13px;
+    letter-spacing: 0.4px;
+    color: var(--ember);
+    background: rgba(14, 12, 10, 0.95);
+    border: 1px solid var(--ember-line);
+    padding: 10px 18px;
+    border-radius: 4px;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 100;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
+/* --- RESPONSIVE --- */
+@media (max-width: 768px) {
+    .nav {
+        top: 20px;
+        right: 20px;
+        gap: 16px;
+    }
+    .ca-pill {
+        top: 52px;
+        right: 20px;
+        font-size: 10px;
+    }
+    .hero__word {
+        bottom: 32px;
+        left: 24px;
+        font-size: 40px;
+        letter-spacing: -1.2px;
+    }
+    .advice {
+        padding: 80px 24px;
+    }
+    .advice__quote {
+        font-size: 20px;
+        line-height: 1.55;
+    }
+    .advice__sub {
+        font-size: 14px;
+    }
+    .embed { padding: 60px 20px; }
+    .every { padding: 60px 24px; }
+    .every__title { font-size: 24px; }
+    .row__l, .row__r { font-size: 15px; }
+    .row__l {
+        white-space: normal;
+        max-width: 60%;
+    }
+    .every__outro { font-size: 17px; }
+    .stayed { padding: 60px 24px; }
+    .stayed__inner p { font-size: 16px; line-height: 1.75; }
+    .stayed__final { font-size: 20px !important; }
+    .how { padding: 48px 24px; }
+    .how__t { font-size: 15px; }
+    .cabar__value { font-size: 12px; }
+    .foot__word {
+        font-size: 36px;
+        letter-spacing: -1px;
+    }
+}
+
+@media (max-width: 380px) {
+    .row__l { font-size: 14px; max-width: 55%; }
+    .row__r { font-size: 14px; }
+    .hero__word { font-size: 36px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .ember-dot { animation: none; opacity: 0.2; }
+    .foot__word { animation: none; opacity: 0.9; }
+    .row { transition: none; opacity: 1; transform: none; }
+}

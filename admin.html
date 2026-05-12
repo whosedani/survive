@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>survive. — admin</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Text:ital,wght@0,400;1,400&family=Schibsted+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --scorched: #0E0C0A;
+            --scorched-2: #131110;
+            --ember: #D4621A;
+            --ash: #D9D0C7;
+            --smoke: #6B6058;
+        }
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Libre Caslon Text', serif;
+            font-style: italic;
+            background: var(--scorched);
+            color: var(--ash);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+        }
+        .card {
+            width: 100%;
+            max-width: 460px;
+            background: var(--scorched-2);
+            border: 1px solid rgba(212, 98, 26, 0.12);
+            padding: 40px 32px;
+        }
+        .card__title {
+            font-family: 'Schibsted Grotesk', sans-serif;
+            font-style: normal;
+            font-weight: 700;
+            font-size: 22px;
+            color: var(--ember);
+            letter-spacing: -0.5px;
+            margin-bottom: 8px;
+        }
+        .card__sub {
+            font-style: italic;
+            font-size: 14px;
+            color: var(--smoke);
+            margin-bottom: 32px;
+        }
+        label {
+            display: block;
+            font-family: 'Schibsted Grotesk', sans-serif;
+            font-style: normal;
+            font-size: 10px;
+            font-weight: 500;
+            color: var(--smoke);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 6px;
+        }
+        input {
+            width: 100%;
+            font-family: 'Schibsted Grotesk', sans-serif;
+            font-size: 13px;
+            padding: 10px 12px;
+            background: var(--scorched);
+            border: 1px solid rgba(107, 96, 88, 0.18);
+            color: var(--ash);
+            margin-bottom: 20px;
+            outline: none;
+            transition: border-color 0.3s;
+            border-radius: 0;
+        }
+        input:focus { border-color: var(--ember); }
+        button {
+            width: 100%;
+            font-family: 'Schibsted Grotesk', sans-serif;
+            font-style: normal;
+            font-size: 14px;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            padding: 12px;
+            background: transparent;
+            border: 1px solid var(--ember);
+            color: var(--ash);
+            cursor: pointer;
+            transition: background 0.3s, color 0.3s;
+            border-radius: 0;
+        }
+        button:hover {
+            background: rgba(212, 98, 26, 0.12);
+            color: var(--ember);
+        }
+        .msg {
+            font-style: italic;
+            font-size: 13px;
+            color: var(--smoke);
+            margin-top: 16px;
+            text-align: center;
+            min-height: 20px;
+        }
+        .msg.error { color: var(--ember); }
+        .msg.success { color: var(--ash); }
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+
+    <div class="card" id="login-card">
+        <div class="card__title">survive.</div>
+        <p class="card__sub">admin access — prove you survived</p>
+        <label>PASSWORD</label>
+        <input type="password" id="password" placeholder="enter password">
+        <button id="login-btn">Enter the Wasteland</button>
+        <p class="msg" id="login-msg"></p>
+    </div>
+
+    <div class="card hidden" id="config-card">
+        <div class="card__title">survive.</div>
+        <p class="card__sub">configure the wasteland</p>
+        <label>CONTRACT ADDRESS</label>
+        <input type="text" id="cfg-ca" placeholder="contract address">
+        <label>X URL</label>
+        <input type="text" id="cfg-x" placeholder="https://x.com/...">
+        <label>COMMUNITY URL</label>
+        <input type="text" id="cfg-community" placeholder="https://t.me/... or https://x.com/i/communities/...">
+        <label>BUY URL</label>
+        <input type="text" id="cfg-buy" placeholder="https://pump.fun/...">
+        <label>TWEET URL</label>
+        <input type="text" id="cfg-tweet" placeholder="https://x.com/boldleonidas/status/...">
+        <button id="save-btn">Save Configuration</button>
+        <p class="msg" id="save-msg"></p>
+    </div>
+
+    <script>
+        let authHash = '';
+
+        async function sha256(text) {
+            const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(text));
+            return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+        }
+
+        document.getElementById('login-btn').addEventListener('click', async () => {
+            const pw = document.getElementById('password').value.trim();
+            if (!pw) return;
+            authHash = await sha256(pw);
+            try {
+                const r = await fetch('/api/config', { headers: { 'Authorization': 'Bearer ' + authHash } });
+                if (!r.ok) throw new Error('wrong password');
+                const cfg = await r.json();
+                document.getElementById('cfg-ca').value = cfg.ca || '';
+                document.getElementById('cfg-x').value = cfg.x || '';
+                document.getElementById('cfg-community').value = cfg.community || '';
+                document.getElementById('cfg-buy').value = cfg.buy || '';
+                document.getElementById('cfg-tweet').value = cfg.tweet || '';
+                document.getElementById('login-card').classList.add('hidden');
+                document.getElementById('config-card').classList.remove('hidden');
+            } catch {
+                const msg = document.getElementById('login-msg');
+                msg.textContent = 'wrong password. the wasteland rejects you.';
+                msg.className = 'msg error';
+            }
+        });
+
+        document.getElementById('password').addEventListener('keydown', e => {
+            if (e.key === 'Enter') document.getElementById('login-btn').click();
+        });
+
+        document.getElementById('save-btn').addEventListener('click', async () => {
+            const body = {
+                ca: document.getElementById('cfg-ca').value.trim(),
+                x: document.getElementById('cfg-x').value.trim(),
+                community: document.getElementById('cfg-community').value.trim(),
+                buy: document.getElementById('cfg-buy').value.trim(),
+                tweet: document.getElementById('cfg-tweet').value.trim()
+            };
+            const msg = document.getElementById('save-msg');
+            try {
+                const r = await fetch('/api/config', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + authHash },
+                    body: JSON.stringify(body)
+                });
+                if (!r.ok) throw new Error('save failed');
+                msg.textContent = 'saved. now survive.';
+                msg.className = 'msg success';
+            } catch {
+                msg.textContent = 'failed. survive anyway.';
+                msg.className = 'msg error';
+            }
+        });
+    </script>
+</body>
+</html>
